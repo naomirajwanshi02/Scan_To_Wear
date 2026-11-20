@@ -16,7 +16,7 @@ function openWearable(w){
   stopScan();
   overlay('guide', false);
   $('foundName').textContent = w.name;
-  $('foundSub').textContent = `${w.place}`;
+  $('foundSub').textContent = w.place;
   overlay('found', true);
   try { navigator.vibrate?.(40); } catch { /* no vibration */ }
   if (!q.has('nogo')) setTimeout(() => location.replace(openUrl(w)), 1100);
@@ -29,14 +29,14 @@ async function openPerm(){
   phase = 'perm'; overlay('guide', false);
   if (await cameraGranted()) return openScan();
   if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia){
-    $('permStatus').textContent = 'Open this link in Safari or Chrome to use the camera.';
+    $('permStatus').textContent = 'This browser cannot use the camera here. Open the page over https in Safari or Chrome.';
     $('permBtn').disabled = true;
   }
   show('perm');
 }
 async function askCamera(){
   $('permBtn').disabled = true;
-  $('permStatus').textContent = 'Tap Allow';
+  $('permStatus').textContent = 'Waiting for you to tap “Allow”…';
   try {
     const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
     s.getTracks().forEach((t) => t.stop());
@@ -44,8 +44,8 @@ async function askCamera(){
   } catch (err) {
     console.error(err);
     $('permStatus').textContent = err?.name === 'NotAllowedError'
-      ? 'Camera blocked. Allow it in your browser settings.'
-      : 'Camera did not start. Close other camera apps and try again.';
+      ? 'The camera was blocked. Allow the camera for this site in your browser settings, then tap Allow camera again.'
+      : 'The camera did not start. Close other apps that use the camera and try again.';
   } finally { $('permBtn').disabled = false; }
 }
 async function openScan(){
@@ -59,7 +59,7 @@ async function openScan(){
   } catch (err) {
     console.error(err);
     const msg = String(err?.message || err?.name || err || '');
-    $('scanStatus').textContent = /mind|fetch|404/i.test(msg) ? `Could not load the pictures.` : 'Camera not available. Allow it, then reload.';
+    $('scanStatus').textContent = /mind|fetch|404/i.test(msg) ? `Could not load the picture data (${msg}).` : 'Camera not available. Allow camera access for this site, then reload the page.';
   }
 }
 

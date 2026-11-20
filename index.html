@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/anatomy/iso.css">
+<link rel="stylesheet" href="css/anatomy-sepia.css">
 <link rel="stylesheet" href="css/hub.css">
 <script type="importmap">
 { "imports": {
@@ -18,27 +20,30 @@
 } }
 </script>
 </head>
-<body>
+<body class="iso ar" data-theme="sepia">
 <div id="ar"></div>
 
-<section id="perm" class="screen">
-  <div class="plate">
-    <h1>Scan to Wear</h1>
-    <p>Scan a picture to experience the wearable interaction associated with it.</p>
-    <button class="btn" id="permBtn">Allow camera</button>
-    <div class="status" id="permStatus"></div>
+<section id="perm" class="screen dim">
+  <div class="col center">
+    <div class="plate welcome">
+      <div class="permicon" aria-hidden="true"><svg viewBox="0 0 48 48" width="56" height="56"><rect x="5" y="13" width="38" height="27" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><path d="M17 13l3-5h8l3 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="26.5" r="7.5" fill="none" stroke="currentColor" stroke-width="3"/></svg></div>
+      <h1>Scan to Wear</h1>
+      <p>Scan a picture to experience the wearable interaction associated with it. Tap the button, then choose <b>Allow</b>.</p>
+      <button class="btn red" id="permBtn">Allow camera</button>
+      <div class="status dark" id="permStatus"></div>
+    </div>
   </div>
 </section>
 
 <div id="guide" class="overlay">
-  <div class="scan-top plate"><b>Scan a picture to wear</b><span class="cap">Its wearable opens</span></div>
+  <div class="scan-top plate"><b>Scan a picture to wear</b><span>Its wearable opens as soon as it's found</span></div>
   <div class="frame"><i></i><i></i><i></i><i></i><div class="sweep"></div></div>
   <div class="scan-bottom">
     <div class="status" id="scanStatus">Starting camera</div>
   </div>
 </div>
 
-<div id="found" class="found"><div class="plate"><b id="foundName"></b><span id="foundSub"></span></div></div>
+<div id="found" class="overlay"><div class="plate badge"><b id="foundName"></b><span id="foundSub"></span></div></div>
 
 <script type="module" src="js/app.js"></script>
 </body>
