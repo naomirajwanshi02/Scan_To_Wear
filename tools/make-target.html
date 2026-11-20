@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Build hub targets</title>
+<style>body{font:14px/1.4 Consolas,monospace;background:#ecdfc6;color:#3b2a1c;padding:16px}img{max-height:30vh;border:1px solid #8c7457;margin-right:8px}pre{white-space:pre-wrap}</style></head>
+<body>
+<h3>Scan to Wear hub · combined target compiler</h3>
+<p>Compiles the LIVE <code>target.png</code> of every wearable into one <code>targets.mind</code> (picture order = <code>index</code> in <code>js/wearables.js</code>). Needs <code>tools/serve.ps1</code> running. Open with <code>?build=1</code> to run at once.</p>
+<button id="go">Build targets.mind</button>
+<div id="out"></div><pre id="log"></pre>
+<script type="module">
+import { WEARABLES } from '../js/wearables.js';
+const log = (t) => { document.getElementById('log').textContent += t + '\n'; };
+async function build(){
+  const list = [...WEARABLES].sort((a, b) => a.index - b.index);
+  const imgs = [];
+  for (const f of list){
+    const blob = await (await fetch(f.picture + '?' + Date.now(), { cache: 'no-store' })).blob();
+    const img = new Image(); img.src = URL.createObjectURL(blob); await img.decode();
+    imgs.push(img); document.getElementById('out').appendChild(img);
+    log(`${f.name}: ${img.naturalWidth}×${img.naturalHeight}`);
+  }
+  await import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js');
+  const compiler = new window.MINDAR.IMAGE.Compiler();
+  let last = -10;
+  const data = await compiler.compileImageTargets(imgs, (p) => { if (p - last >= 10){ last = p; log(`compiling ${p.toFixed(0)}%`); } });
+  log(`compiled ${data.length} targets`);
+  const buf = await compiler.exportData();
+  const res = await fetch('/__save?name=targets.mind', { method: 'POST', body: new Blob([buf]) });
+  log(`targets.mind (${(buf.byteLength / 1024).toFixed(0)} KB): ${res.ok ? 'saved' : 'save failed'}`);
+  log('DONE');
+}
+document.getElementById('go').onclick = () => build().catch((e) => log('ERROR ' + (e.stack || e)));
+if (new URLSearchParams(location.search).has('build')) document.getElementById('go').click();
+</script>
+</body></html>
