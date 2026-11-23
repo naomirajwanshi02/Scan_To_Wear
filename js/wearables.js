@@ -9,7 +9,7 @@ const BASE = 'https://naomirajwanshi02.github.io/';
 
 export const WEARABLES = [
   { index: 0, id: 'noh', name: 'Noh Masks', place: 'Wear a Noh mask',
-    url: BASE + 'Noh_Masks/', picture: BASE + 'Noh_Masks/target.png' },
+    url: BASE + 'Noh_Masks/', picture: '../assets/noh-target.jpg' },
   { index: 1, id: 'samurai', name: 'Samurai Armour', place: 'Wear a samurai helmet',
     url: BASE + 'Samurai_Wear/', picture: BASE + 'Samurai_Wear/target.png' },
 ];
