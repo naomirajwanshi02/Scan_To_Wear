@@ -39,3 +39,5 @@ p{margin:6px 0 16px;line-height:1.5}
 .found b{display:block;font-size:20px;color:var(--strong)}
 @keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
 .choose{display:grid;gap:8px;margin-bottom:12px}
+.guideclose{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:50;pointer-events:auto;width:46px;height:46px;border:0;border-radius:50%;background:var(--card);color:var(--strong);display:grid;place-items:center;box-shadow:0 0 0 1px #3b2a1c22,0 6px 16px -4px #3b2a1c55;cursor:pointer}
+.guideclose:active{transform:scale(.94)}

@@ -64,6 +64,7 @@ async function openScan(){
 }
 
 $('permBtn').addEventListener('click', askCamera);
+$('guideClose').addEventListener('click', () => { stopScan(); overlay('guide', false); phase = 'perm'; show('perm'); });
 
 openPerm();
 window.__hub = { openWearable, WEARABLES };
